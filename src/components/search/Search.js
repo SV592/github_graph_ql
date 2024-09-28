@@ -15,7 +15,7 @@ function Search({ onSearch }) {
             <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"
-                    placeholder="Enter repository slugs (e.g., facebook/react, nodejs/node)"
+                    placeholder="Enter repo slugs (e.g., facebook/react)"
                     value={repoSlugs}
                     onChange={(e) => setRepoSlugs(e.target.value)}
                     className="search-input"

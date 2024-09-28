@@ -20,7 +20,7 @@ function GitHubToken({ onTokenSubmit }) {
             <form onSubmit={handleSubmit}>
                 <input
                     type="password"
-                    placeholder="Enter GitHub Token"
+                    placeholder="Enter GitHub Tokens"
                     value={token}
                     onChange={handleInputChange}
                     className="token-input"
