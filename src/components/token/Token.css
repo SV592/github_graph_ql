@@ -3,24 +3,37 @@
     text-align: center;
   }
   
+.token-input {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.token-button {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.token-button:hover {
+  background-color: #218838;
+}
+  
+  
+/* Adjust for smaller screens */
+@media only screen and (max-width: 768px) {
   .token-input {
-    width: 300px;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 100%;  /* Full width input for smaller screens */
+    margin-bottom: 10px;  /* Add space between input and button */
   }
-  
+
   .token-button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    width: 100%;  /* Full width button for smaller screens */
   }
-  
-  .token-button:hover {
-    background-color: #218838;
-  }
+}
   

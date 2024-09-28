@@ -41,3 +41,17 @@
     margin-top: 20px;
   }
   
+
+  /* For medium screens (tablet) */
+@media only screen and (max-width: 1024px) {
+  .results {
+    justify-content: center;  /* Center cards on tablet */
+  }
+}
+
+/* For small screens (mobile) */
+@media only screen and (max-width: 768px) {
+  .result-card {
+    width: 100%;  /* Full width cards on mobile */
+  }
+}

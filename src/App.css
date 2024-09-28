@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+/* Base container */
+.App {
+  padding: 20px;
+}
+
+/* For large screens (desktop) */
+@media only screen and (min-width: 1024px) {
+  .App {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* For medium screens (tablet) */
+@media only screen and (max-width: 1024px) {
+  .App {
+    padding: 15px;
+  }
+}
+
+/* For small screens (mobile) */
+@media only screen and (max-width: 768px) {
+  .App {
+    padding: 10px;
+  }
+}
+

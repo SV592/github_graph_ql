@@ -25,3 +25,19 @@
     background-color: #218838;
   }
   
+  /* For small screens (mobile) */
+@media only screen and (max-width: 768px) {
+  .search {
+    flex-direction: column;  /* Stack the input and button vertically */
+    align-items: center;
+  }
+
+  .search-input {
+    width: 100%;  /* Full width on mobile */
+    margin-bottom: 10px;  /* Add space between input and button */
+  }
+
+  .search-button {
+    width: 100%;  /* Full width button on mobile */
+  }
+}
