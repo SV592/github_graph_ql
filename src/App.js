@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
+
+// Components
 import Header from './components/header/Header';
 import Search from './components/search/Search';
 import Results from './components/results/Results';
 import Error from './components/error/Error';
+import GitHubToken from './components/token/Token';
+
+// Styles
 import './App.css';
 
+
+// Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 function App() {
+  const [token, setToken] = useState('');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,11 +24,21 @@ function App() {
 
   const handleSearch = (newQuery) => {
     setQuery(newQuery);
-    setError(null);  // Reset error before a new search
+    setError(null);
     fetchDataFromGitHub(newQuery);
   };
 
+  const handleTokenSubmit = (newToken) => {
+    setToken(newToken);
+    setError(null);  // Reset error when new token is submitted
+  };
+
   const fetchDataFromGitHub = async (searchQuery) => {
+    if (!token) {
+      setError('Please provide a valid GitHub token.');
+      return;
+    }
+
     setLoading(true);
 
     const query = `
@@ -41,14 +62,12 @@ function App() {
       }
     `;
 
-    const token = 'your-github-token';  // Replace with actual token
-
     try {
       const response = await fetch('https://api.github.com/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,  // Use the token provided by the user
         },
         body: JSON.stringify({
           query: query,
@@ -68,7 +87,7 @@ function App() {
       const repositories = json.data.search.edges.map(edge => edge.node);
       setResults(repositories);
     } catch (err) {
-      setError(err.message);  // Set the error message to be displayed
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -77,6 +96,7 @@ function App() {
   return (
     <div className="app">
       <Header />
+      <GitHubToken onTokenSubmit={handleTokenSubmit} />
       <Search onSearch={handleSearch} />
       {error && <Error errorMessage={error} />}
       <Results results={results} loading={loading} />

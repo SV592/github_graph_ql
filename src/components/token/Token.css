@@ -1,0 +1,26 @@
+.github-token {
+    margin: 20px;
+    text-align: center;
+  }
+  
+  .token-input {
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .token-button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .token-button:hover {
+    background-color: #218838;
+  }
+  
