@@ -1,39 +1,28 @@
 import React, { useState } from 'react';
-
-// Components
 import Header from './components/header/Header';
 import Search from './components/search/Search';
 import Results from './components/results/Results';
 import Error from './components/error/Error';
 import GitHubToken from './components/token/Token';
-
-// Styles
 import './App.css';
-
-
-// Bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function App() {
   const [token, setToken] = useState('');
-  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSearch = (newQuery) => {
-    setQuery(newQuery);
+  const handleSearch = async (repoSlugs) => {
     setError(null);
-    fetchDataFromGitHub(newQuery);
+    fetchDataFromGitHub(repoSlugs);
   };
 
   const handleTokenSubmit = (newToken) => {
     setToken(newToken);
-    setError(null);  // Reset error when new token is submitted
+    setError(null);
   };
 
-  const fetchDataFromGitHub = async (searchQuery) => {
+  const fetchDataFromGitHub = async (repoSlugs) => {
     if (!token) {
       setError('Please provide a valid GitHub token.');
       return;
@@ -41,24 +30,30 @@ function App() {
 
     setLoading(true);
 
-    const query = `
-      query($queryString: String!) {
-        search(query: $queryString, type: REPOSITORY, first: 10) {
-          edges {
-            node {
-              ... on Repository {
-                name
-                description
-                stargazerCount
-                forkCount
-                issues {
-                  totalCount
-                }
-                url
-              }
-            }
-          }
+    // Construct GraphQL queries for each repo slug
+    const queries = repoSlugs.map(slug => {
+      const [owner, name] = slug.split('/');
+      return `
+        ${name.replace(/-/g, '_')}: repository(owner: "${owner}", name: "${name}") {
+          name
+          description
+          forkCount
+          stargazerCount
+          createdAt
+          archivedAt
+          isArchived
+          isFork
+          isPrivate
+          isTemplate
+          visibility
+          url
         }
+      `;
+    }).join('\n');
+
+    const query = `
+      query {
+        ${queries}
       }
     `;
 
@@ -67,12 +62,9 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,  // Use the token provided by the user
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          query: query,
-          variables: { queryString: searchQuery }
-        }),
+        body: JSON.stringify({ query }),
       });
 
       if (!response.ok) {
@@ -84,7 +76,8 @@ function App() {
         throw new Error(json.errors[0].message);
       }
 
-      const repositories = json.data.search.edges.map(edge => edge.node);
+      // Extract results from the response for all repositories
+      const repositories = Object.keys(json.data).map(key => json.data[key]);
       setResults(repositories);
     } catch (err) {
       setError(err.message);
@@ -94,12 +87,19 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="app-container">
       <Header />
-      <GitHubToken onTokenSubmit={handleTokenSubmit} />
-      <Search onSearch={handleSearch} />
-      {error && <Error errorMessage={error} />}
-      <Results results={results} loading={loading} />
+      <div className="app-grid">
+        <div className="sidebar">
+          <GitHubToken onTokenSubmit={handleTokenSubmit} />
+          <Search onSearch={handleSearch} />
+        </div>
+        <div className="main-content">
+          {error && <Error errorMessage={error} />}
+          <Results results={results} loading={loading} />
+        </div>
+      </div>
+      {loading && <div className="loading-bar">Loading...</div>}
     </div>
   );
 }

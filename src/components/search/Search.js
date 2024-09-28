@@ -2,27 +2,22 @@ import React, { useState } from 'react';
 import './Search.css';
 
 function Search({ onSearch }) {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [repoSlugs, setRepoSlugs] = useState('');
 
-    const handleInputChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
+    const handleSearch = (e) => {
         e.preventDefault();
-        if (searchTerm.trim() !== '') {
-            onSearch(searchTerm);
-        }
+        const slugs = repoSlugs.split(',').map(slug => slug.trim()); // Split slugs by commas and trim whitespace
+        onSearch(slugs);  // Pass the array of slugs to the parent component (App.js)
     };
 
     return (
         <div className="search">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"
-                    placeholder="Search GitHub repositories or users..."
-                    value={searchTerm}
-                    onChange={handleInputChange}
+                    placeholder="Enter repository slugs (e.g., facebook/react, nodejs/node)"
+                    value={repoSlugs}
+                    onChange={(e) => setRepoSlugs(e.target.value)}
                     className="search-input"
                 />
                 <button type="submit" className="search-button">Search</button>

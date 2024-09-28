@@ -1,66 +1,76 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Overall container */
+.app-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* Grid layout with sidebar and content */
+.app-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;  /* Sidebar takes 300px, main content fills the rest */
+  grid-gap: 20px;
+  padding: 20px;
+  flex-grow: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Sidebar styling */
+.sidebar {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* Base container */
-.App {
+.sidebar input,
+.sidebar button {
+  width: 100%;  /* Ensure full-width inputs and buttons */
+  box-sizing: border-box;
+}
+
+/* Main content area for displaying results */
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));  /* Fit as many columns as possible */
+  grid-gap: 20px;
   padding: 20px;
 }
 
-/* For large screens (desktop) */
-@media only screen and (min-width: 1024px) {
-  .App {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+/* Individual result cards (grid boxes) */
+.result-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-/* For medium screens (tablet) */
-@media only screen and (max-width: 1024px) {
-  .App {
-    padding: 15px;
-  }
+.result-card:hover {
+  transform: translateY(-5px);  /* Add hover effect */
 }
 
-/* For small screens (mobile) */
+/* Loading bar */
+.loading-bar {
+  text-align: center;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Responsive design for smaller screens */
 @media only screen and (max-width: 768px) {
-  .App {
-    padding: 10px;
+  .app-grid {
+    grid-template-columns: 1fr;  /* Sidebar stacks on top of content */
+  }
+
+  .main-content {
+    grid-template-columns: 1fr;  /* Single-column grid for smaller screens */
   }
 }
-

@@ -1,43 +1,43 @@
 .search {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .search-input {
-    width: 300px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  .search-button {
-    padding: 8px 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .search-button:hover {
-    background-color: #218838;
-  }
-  
-  /* For small screens (mobile) */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px; /* This makes spacing between input and button consistent */
+}
+
+.search-input {
+  width: 300px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #218838;
+}
+
+/* Media Queries for smaller screens (mobile) */
 @media only screen and (max-width: 768px) {
   .search {
-    flex-direction: column;  /* Stack the input and button vertically */
-    align-items: center;
+    flex-direction: column;  /* Stack input and button vertically */
+    align-items: center;     /* Center the stacked elements */
   }
 
   .search-input {
-    width: 100%;  /* Full width on mobile */
-    margin-bottom: 10px;  /* Add space between input and button */
+    width: 100%;              /* Full width for mobile */
+    margin-bottom: 10px;      /* Add space between input and button */
   }
 
   .search-button {
-    width: 100%;  /* Full width button on mobile */
+    width: 100%;              /* Full width for mobile */
   }
 }

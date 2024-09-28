@@ -9,7 +9,7 @@ function Header() {
             <div className="logo">
                 {/* You can replace this text with a logo */}
                 <img src={logo} alt="GitHub Logo" />
-                <h1>GitHub GraphQL App</h1>
+                <h1>GitHub Repo Info</h1>
             </div>
             <div className="user-info">
                 {/* Once you handle authentication, you can display user info here */}
