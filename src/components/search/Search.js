@@ -5,6 +5,25 @@ import './Search.css';
 function Search({ onSearch }) {
     const [repoUrls, setRepoUrls] = useState('');
 
+    // Parsing function to extract slugs from GitHub URLs
+    const parseSlugs = (input) => {
+        return input.split(',').map(slugOrUrl => {
+            try {
+                const url = new URL(slugOrUrl.trim());
+                if (url.hostname === 'github.com') {
+                    // Extract the owner/repo slug from GitHub URL
+                    const pathParts = url.pathname.split('/').filter(Boolean);
+                    if (pathParts.length >= 2) {
+                        return `${pathParts[0]}/${pathParts[1]}`; // Returns the slug: owner/repo
+                    }
+                }
+            } catch (error) {
+                console.log(`Invalid URL: ${slugOrUrl}. Assuming it's a slug.`);
+            }
+            return slugOrUrl.trim(); // If it's not a URL, assume it's already a slug
+        });
+    };
+
     // Function to handle file reading and URL extraction
     const handleFileRead = (file) => {
         const reader = new FileReader();
@@ -28,20 +47,13 @@ function Search({ onSearch }) {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const urls = repoUrls.split(',').map(url => url.trim());
-        const validUrls = urls.filter(url => {
-            try {
-                const parsedUrl = new URL(url);
-                return parsedUrl.hostname === 'github.com'; // Only allow GitHub URLs
-            } catch (error) {
-                return false; // Invalid URL
-            }
-        });
-
-        if (validUrls.length === 0) {
-            alert('Please enter valid GitHub repository URLs.');
+        const slugs = parseSlugs(repoUrls); // Parse URLs or slugs entered
+        const validSlugs = slugs.filter(slug => slug.includes('/')); // Ensure it's a valid owner/repo format
+        console.log(validSlugs);
+        if (validSlugs.length === 0) {
+            alert('Please enter valid GitHub repository URLs or slugs.');
         } else {
-            onSearch(validUrls); // Pass the valid URLs to the parent component
+            onSearch(validSlugs); // Pass the valid slugs to the parent component
         }
     };
 
@@ -50,7 +62,7 @@ function Search({ onSearch }) {
             <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="url"
-                    placeholder="Enter GitHub URL"
+                    placeholder="Enter GitHub URLs or slugs"
                     value={repoUrls}
                     onChange={(e) => setRepoUrls(e.target.value)}
                     className="search-input"

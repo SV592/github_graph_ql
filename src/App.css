@@ -24,6 +24,7 @@
   flex-direction: column;
   gap: 20px;
   height: 100%; /* Full height of the page */
+  padding-bottom: 10px;
 }
 
 .sidebar input,
@@ -41,7 +42,7 @@
   padding: 15px;
   border-radius: 4px;
   margin-top: auto; /* Push to the bottom */
-  max-width: 80%; /* Set a maximum width (adjust as needed) */
+  max-width: 280px; /* Set a maximum width (adjust as needed) */
   align-self: center; /* Center the box within the sidebar */
 }
 
