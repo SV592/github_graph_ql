@@ -94,12 +94,7 @@ function App() {
             </div>
           )}
         </div>
-        <div className="main-content">
-          {error && <Error errorMessage={error} />}
-          <Results results={results} loading={loading} />
-        </div>
       </div>
-      {loading && <div className="loading-bar">Loading...</div>}
     </div>
   );
 }
