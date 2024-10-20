@@ -46,7 +46,27 @@
   background-color: #218838;
 }
 
-  
+/* Error Message with Red Box */
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  border: 1px solid red;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+/* Success Message with Green Box */
+.success-message {
+  color: green;
+  background-color: #e6ffe6;
+  border: 1px solid green;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+
   
 /* Adjust for smaller screens */
 @media only screen and (max-width: 768px) {
