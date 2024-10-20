@@ -18,19 +18,13 @@ function App() {
   };
 
   const handleTokenSubmit = (newToken) => {
-    setToken(newToken);
+    setToken(newToken);  // Store the token if provided
     setError(null);
   };
 
   const fetchDataFromGitHub = async (repoSlugs) => {
-    if (!token) {
-      setError('Please provide a valid GitHub token.');
-      return;
-    }
-
     setLoading(true);
 
-    // Construct GraphQL queries for each repo slug
     const queries = repoSlugs.map(slug => {
       const [owner, name] = slug.split('/');
       return `
@@ -44,7 +38,6 @@ function App() {
           isArchived
           isFork
           isPrivate
-          isTemplate
           visibility
           url
         }
@@ -62,7 +55,7 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          ...(token && { 'Authorization': `Bearer ${token}` }),  // Include token if provided
         },
         body: JSON.stringify({ query }),
       });
@@ -76,7 +69,6 @@ function App() {
         throw new Error(json.errors[0].message);
       }
 
-      // Extract results from the response for all repositories
       const repositories = Object.keys(json.data).map(key => json.data[key]);
       setResults(repositories);
     } catch (err) {
@@ -93,6 +85,14 @@ function App() {
         <div className="sidebar">
           <GitHubToken onTokenSubmit={handleTokenSubmit} />
           <Search onSearch={handleSearch} />
+          {token === '' && (
+            <div className="rate-limit-warning">
+              <p>
+                <strong>Note:</strong> If you're using the app without a GitHub token.
+                Unauthenticated requests are limited to <strong>60</strong> per hour. For higher limits and access to more data, please provide a token.
+              </p>
+            </div>
+          )}
         </div>
         <div className="main-content">
           {error && <Error errorMessage={error} />}
