@@ -1,6 +1,6 @@
 # GitHub GraphQL Explorer App
 
-This project is a **React-based web application** that interfaces with the GitHub GraphQL API, allowing users to search and retrieve detailed information about GitHub repositories. It provides an intuitive interface for exploring repository data using GraphQL queries.
+This project is a **React-based web application** that interfaces with the GitHub GraphQL API, allowing users to search and retrieve detailed information about GitHub repositories, for collecting/exploring repository data using GraphQL queries.
 
 ---
 
