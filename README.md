@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# GitHub GraphQL Explorer App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a **React-based web application** that interfaces with the GitHub GraphQL API, allowing users to search and retrieve detailed information about GitHub repositories. It provides an intuitive interface for exploring repository data using GraphQL queries.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+### **Implemented Features**
+1. **GitHub Token Integration**
+   - Users can enter their GitHub tokens for authenticated requests.
+   - Supports drag-and-drop upload of `.txt` or `.csv` files containing multiple tokens.
+   - Validates tokens using the GitHub API, with error and success indicators:
+     - Errors are displayed with a red box and message.
+     - Valid tokens are confirmed with a green success message.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Search Functionality**
+   - Users can search for repositories using:
+     - GitHub repository links (e.g., `https://github.com/user/repo`).
+     - Direct slugs (e.g., `user/repo`).
+   - Drag-and-drop support for uploading `.txt` or `.csv` files with multiple repository URLs.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **Data Parsing and Validation**
+   - Repository links are parsed to extract slugs (`owner/repo` format).
+   - Validates input data to ensure only GitHub URLs or valid slugs are processed.
 
-### `npm test`
+4. **GraphQL Queries**
+   - Retrieves repository information using GitHub's GraphQL API.
+   - Query data includes:
+     - Repository name
+     - Description
+     - Fork count
+     - Star count
+     - Creation date
+     - Archived status
+     - Visibility level
+     - URL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. **Rate-Limit Warning**
+   - Displays a note to unauthenticated users about the GitHub API rate limit (60 requests per hour).
+   - Encourages token usage for higher request limits.
 
-### `npm run build`
+6. **Responsive Design**
+   - Ensures seamless usage across desktop and mobile devices.
+   - Media queries handle layout adjustments for smaller screens.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📌 Planned Features
+1. **Pagination for Results**
+   - Handle large result sets by allowing users to navigate through pages.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Enhanced Query Builder**
+   - Include more customizable options for users to select specific fields from the GraphQL API.
 
-### `npm run eject`
+3. **Save and Export Results**
+   - Allow users to download the fetched repository information as a `.csv` or `.json` file.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Multi-Token Management**
+   - Enable rotating between multiple GitHub tokens to avoid rate limits.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. **Advanced Error Handling**
+   - Provide detailed error messages for API failures, such as rate limit errors or invalid repository inputs.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+6. **User Authentication**
+   - Implement GitHub OAuth for a seamless and secure login process.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+7. **Visualize Repository Data**
+   - Add charts and graphs to display repository statistics like stars, forks, and activity trends.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 💻 Getting Started
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Prerequisites**
+- [Node.js](https://nodejs.org/en/)
+- A GitHub token with `read` permissions.
 
-### Code Splitting
+### **Installation**
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/SV592/github_graph_ql.git
+   cd github_graph_ql
+   npm install
+   npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Usage 
+- Enter your GitHub token or upload a file containing tokens.
+- Input GitHub repository links or slugs into the search bar or upload a file with repository links.
+- Click "Search" to retrieve and display repository information.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 🛠 Technologies Used
+- Frontend: React.js
+- API: GitHub GraphQL API
+- Styling: CSS with media queries for responsiveness
+- File Handling: React Dropzone
+- Error Handling: Client-side validation and API response management
