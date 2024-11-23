@@ -95,3 +95,7 @@ This project is a **React-based web application** that interfaces with the GitHu
 - Styling: CSS with media queries for responsiveness
 - File Handling: React Dropzone
 - Error Handling: Client-side validation and API response management
+
+### Screenshots
+![image](https://github.com/user-attachments/assets/5aaa9f57-f8ed-4eab-825a-eb494ed523fc)
+
