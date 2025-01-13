@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from './components/header/Header';
 import Search from './components/search/Search';
 import Results from './components/results/Results';
-import Error from './components/error/Error';
+import Message from './components/message/Message'; // Updated import for Message component
 import GitHubToken from './components/token/Token';
 import './App.css';
 
@@ -85,14 +85,16 @@ function App() {
         <div className="sidebar">
           <GitHubToken onTokenSubmit={handleTokenSubmit} />
           <Search onSearch={handleSearch} />
-          {token === '' && (
-            <div className="rate-limit-warning">
-              <p>
-                <strong>Note:</strong> If you're using the app without a GitHub token.
-                Unauthenticated requests are limited to <strong>60</strong> per hour. For higher limits and access to more data, please provide a token.
-              </p>
-            </div>
-          )}
+          {error && <Message message={error} type="error" />} {/* Display error using Message component */}
+          {!error && token && (
+            <Message message="Token is valid. Enjoy unlimited requests!" type="success" />
+          )} {/* Display success message when token is valid */}
+          <div className="rate-limit-warning">
+            <p>
+              <strong>Note:</strong> If you're using the app without a GitHub token.
+              Unauthenticated requests are limited to <strong>60</strong> per hour. For higher limits and access to more data, please provide a token.
+            </p>
+          </div>
         </div>
       </div>
     </div>

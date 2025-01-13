@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import Message from '../message/Message'; // Import the updated Message component
 import './Token.css';
 
 function GitHubToken({ onTokenSubmit }) {
     const [tokens, setTokens] = useState('');
-    const [error, setError] = useState('');
-    const [isTokenValid, setIsTokenValid] = useState(false);  // New state to track token validity
+    const [error, setError] = useState(''); // Store error messages
+    const [successMessage, setSuccessMessage] = useState(''); // Store success messages
 
     // Function to handle file reading and token extraction
     const handleFileRead = (file) => {
         const reader = new FileReader();
         reader.onload = (event) => {
             const content = event.target.result;
-            const lines = content.split(/\r?\n/).map(line => line.trim());  // Split by newlines
-            const validEntries = lines.filter(line => line !== '');  // Remove empty lines
-            setTokens(validEntries.join(', '));  // Set the content in state (comma-separated)
+            const lines = content.split(/\r?\n/).map(line => line.trim()); // Split by newlines
+            const validEntries = lines.filter(line => line !== ''); // Remove empty lines
+            setTokens(validEntries.join(', ')); // Set tokens
+            setError(''); // Clear previous errors
+            setSuccessMessage(''); // Clear success messages
         };
         reader.readAsText(file);
     };
@@ -23,12 +26,12 @@ function GitHubToken({ onTokenSubmit }) {
     const { getRootProps, getInputProps } = useDropzone({
         accept: '.txt, .csv',
         onDrop: (acceptedFiles) => {
-            const file = acceptedFiles[0];  // Only accept the first file
-            handleFileRead(file);  // Read file and set tokens
+            const file = acceptedFiles[0];
+            handleFileRead(file); // Read the file and update tokens
         }
     });
 
-    // Function to validate the token with the GitHub API
+    // Function to validate the token with GitHub API
     const validateToken = async (token) => {
         try {
             const response = await fetch('https://api.github.com/rate_limit', {
@@ -38,30 +41,44 @@ function GitHubToken({ onTokenSubmit }) {
             });
 
             if (!response.ok) {
-                throw new Error('Invalid GitHub Token!');
+                throw new Error(`Invalid token: ${token}`);
             }
 
-            const data = await response.json();
-            setError('');  // Clear any previous errors
-            setIsTokenValid(true);  // Set token validity to true
-            onTokenSubmit(token);  // Pass the valid token to the parent component
-
-        } catch (err) {
-            setError(err.message);  // Display error if token is invalid
-            setIsTokenValid(false);  // Set token validity to false
+            return true; // Token is valid
+        } catch {
+            return false; // Token is invalid
         }
     };
 
-    const handleTokenSubmit = (e) => {
+    const handleTokenSubmit = async (e) => {
         e.preventDefault();
         const tokenList = tokens.split(',').map(token => token.trim());
+        const invalidTokens = [];
+        const validTokens = [];
 
-        if (tokenList.length === 0) {
-            setError('Please enter at least one GitHub token.');
-        } else {
-            // Validate the first token (you could extend this to handle multiple tokens)
-            validateToken(tokenList[0]);
+        for (const token of tokenList) {
+            const isValid = await validateToken(token);
+            if (isValid) {
+                validTokens.push(token);
+            } else {
+                invalidTokens.push(token);
+            }
         }
+
+        if (invalidTokens.length > 0) {
+            setError(`Invalid tokens: ${invalidTokens.join(', ')}`); // Display invalid tokens
+        } else {
+            setError(''); // Clear error if no invalid tokens
+        }
+
+        if (validTokens.length > 0) {
+            setSuccessMessage(`Valid tokens: ${validTokens.join(', ')}`); // Display valid tokens
+            onTokenSubmit(validTokens); // Pass valid tokens to parent component
+        } else {
+            setSuccessMessage(''); // Clear success message if no valid tokens
+        }
+
+        setTokens(''); // Clear input field after processing
     };
 
     return (
@@ -69,7 +86,7 @@ function GitHubToken({ onTokenSubmit }) {
             <form onSubmit={handleTokenSubmit} className="token-form input-wrapper">
                 <input
                     type="text"
-                    placeholder="Enter GitHub Token"
+                    placeholder="Enter GitHub Token(s)"
                     value={tokens}
                     onChange={(e) => setTokens(e.target.value)}
                     className="token-input"
@@ -79,8 +96,8 @@ function GitHubToken({ onTokenSubmit }) {
                     <input {...getInputProps()} />
                     <p>Drag 'n' drop a file with tokens, or click to select one (.txt or .csv)</p>
                 </div>
-                {error && <p className="error-message">{error}</p>}  {/* Display validation error in red */}
-                {isTokenValid && <p className="success-message">Valid Github Token!</p>}  {/* Display success message in green */}
+                {error && <Message message={error} type="error" />} {/* Use Message for error */}
+                {successMessage && <Message message={successMessage} type="success" />} {/* Use Message for success */}
                 <button type="submit" className="token-button">Submit Tokens</button>
             </form>
         </div>

@@ -1,0 +1,6 @@
+https://github.com/tj/commander.js
+https://github.com/DefinitelyTyped/DefinitelyTyped
+https://github.com/acornjs/acorn
+https://github.com/ljharb/qs
+https://github.com/yargs/yargs
+https://github.com/jprichardson/node-fs-extra
