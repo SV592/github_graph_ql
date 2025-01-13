@@ -14,7 +14,6 @@
   flex-grow: 1;
 }
 
-/* Sidebar styling */
 /* Sidebar Styling */
 .sidebar {
   background-color: #f9f9f9;
@@ -34,7 +33,6 @@
 }
 
 /* Rate Limit Warning Styling */
-/* Rate Limit Warning Styling */
 .rate-limit-warning {
   background-color: #ffebcc;
   color: #856404;
@@ -42,7 +40,7 @@
   padding: 15px;
   border-radius: 4px;
   margin-top: auto; /* Push to the bottom */
-  max-width: 280px; /* Set a maximum width (adjust as needed) */
+  width: 85%;
   align-self: center; /* Center the box within the sidebar */
 }
 
